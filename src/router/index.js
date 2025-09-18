@@ -1,6 +1,8 @@
 
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import { useAuth } from "../auth/AuthContext";
+
 
 // pages
 import Home from "../pages/Home";
@@ -10,15 +12,14 @@ import PlanList from "../pages/PlanList";
 import PlanDetail from "../pages/PlanDetail";
 import Setup from "../pages/Setup";
 
-function useAuth() {
-  // TODO
-  const token = 'xxxx';
-  return { isAuthed: !!token };
-}
 
 function RequireAuth({ children }) {
-  const { isAuthed } = useAuth();
+
+  const { isAuthed, loading } = useAuth();
   const location = useLocation();
+
+  if (loading) return null; // TODO: show a global Loading component here
+
   // Redirect to home if not logged in, preserving the original URL (for post-login redirect)
   if (!isAuthed) return <Navigate to="/" replace state={{ from: location }} />;
   return children;
