@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import { useAuth } from "../auth/AuthContext";
 
-
+import MapsLayout from "./MapsLayout";
 // pages
 import Home from "../pages/Home";
 import ItineraryList from "../pages/ItineraryList";
@@ -33,35 +33,39 @@ export default function AppRouter() {
 
         <Route index element={<Home />} />
 
-        <Route path="setup"
-          element={
-            <RequireAuth>
-              <Setup />
-            </RequireAuth>
-          } />
+        <Route element={<MapsLayout />}>
+
+          <Route path="setup"
+            element={
+              <RequireAuth>
+                <Setup />
+              </RequireAuth>
+            } />
+
+          <Route
+            path="plan/:id"
+            element={
+              <RequireAuth>
+                <PlanDetail />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="itinerary"
+            element={
+              <RequireAuth>
+                <ItineraryList />
+              </RequireAuth>
+            }
+          />
+        </Route>
 
         <Route
           path="plan"
           element={
             <RequireAuth>
               <PlanList />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="plan/:id"
-          element={
-            <RequireAuth>
-              <PlanDetail />
-            </RequireAuth>
-          }
-        />
-
-        <Route
-          path="itinerary"
-          element={
-            <RequireAuth>
-              <ItineraryList />
             </RequireAuth>
           }
         />
