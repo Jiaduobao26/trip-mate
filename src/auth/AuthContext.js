@@ -9,7 +9,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const un = watchAuth((u) => {
-      console.log(u)
       setUser(u || null);
       setLoading(false);
     });
