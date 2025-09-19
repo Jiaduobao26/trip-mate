@@ -1,3 +1,3 @@
-export default function PlanList() {
-  return <div>PlanList</div>
+export default function PlanDetail() {
+  return <div>PlanDetail</div>
 }
