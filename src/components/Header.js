@@ -10,7 +10,7 @@ import UserProfile from "./UserProfile";
 import { signInWithGoogle, logout } from "../lib/auth";
 import { useAuth } from "../auth/AuthContext";
 
-const TITLE = "TravelPlan";
+const TITLE = "Travel Planner";
 export default function Header() {
   const { user } = useAuth();
 
