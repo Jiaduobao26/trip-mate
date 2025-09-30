@@ -13,13 +13,13 @@ export default function Setup() {
   const [openDialog, setOpenDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [countdown, setCountdown] = useState(5);
-  let data = {};
+  const [data, setData] = useState({});
 
   const navigate = useNavigate();
   const handleConfirmDialog = ({ id }) => {
     setOpenDialog(false);
     setOpen(true);
-    data.id = id;
+    setData({ id })
   }
   const startPlanningHandler = () => {
 
