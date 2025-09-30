@@ -42,9 +42,22 @@ export async function getTripPlan(payload) {
 }
 
 export async function createTrip(payload) {
-  const res = await api.post(`${base}/trips/setup`, payload);
-  return res;
+  //   const res = await api.post(`${base}/trips/setup`, payload);
+  //   return res;
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        success: true,
+        data: {
+          id: "1021",
+          destination: payload?.destination || "San Francisco",
+          createdAt: new Date().toISOString()
+        },
+      });
+    }, 10000);
+  });
 }
+
 
 export async function getTrip({ id }) {
   // const res = await api.get(`${base}/trips/${id}`);
