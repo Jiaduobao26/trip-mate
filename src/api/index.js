@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 import { auth } from "../lib/firebase";
 
-const base = process.env.REACT_APP_API_BASE || 'http://localhost:4000/api';
+const base = process.env.REACT_APP_API_BASE || "http://localhost:4000/api";
 
 const api = axios.create({
   baseURL: base,
@@ -51,13 +51,12 @@ export async function createTrip(payload) {
         data: {
           id: "1021",
           destination: payload?.destination || "San Francisco",
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
         },
       });
     }, 10000);
   });
 }
-
 
 export async function getTrip({ id }) {
   // const res = await api.get(`${base}/trips/${id}`);
@@ -67,14 +66,14 @@ export async function getTrip({ id }) {
     data: {
       destination: "San Francisco",
       duration: 8,
-      interests: ["ChIJmRyMs_mAhYARpViaf6JEWNE"]
+      interests: ["ChIJmRyMs_mAhYARpViaf6JEWNE"],
     },
   });
 }
 
 export async function getTripAttractions({ id }) {
   // const res = await api.get(`${base}/trips/${id}/attractions`);
-  const res = await fetch("/mock/attractions.json").then(r => r.json());
+  const res = await fetch("/mock/attractions.json").then((r) => r.json());
   return res;
 }
 
@@ -87,10 +86,8 @@ export async function getTripProcess({ id }) {
     status: Math.random() > 0.7 ? "ready" : "processing",
   };
 
-
-  const progress = trip.status === "ready"
-    ? 100
-    : Math.floor(Math.random() * 100);
+  const progress =
+    trip.status === "ready" ? 100 : Math.floor(Math.random() * 100);
 
   return Promise.resolve({
     success: true,
@@ -99,4 +96,59 @@ export async function getTripProcess({ id }) {
       progress,
     },
   });
+}
+
+export async function getUserItineraries(page = 0, size = 20) {
+  // const user = auth.currentUser;
+  // if (!user) throw new Error('User not authenticated');
+  //
+  // const token = await user.getIdToken();
+  // const res = await api.get('/itineraries', {
+  //   params: { page, size },
+  //   headers: { Authorization: `Bearer ${token}` }
+  // });
+  // return res.data;
+
+  // Mock data for development
+  return Promise.resolve({
+    items: [
+      {
+        id: "123",
+        destinationCity: "San Francisco",
+        startDate: "2024-12-15T10:00:00Z",
+        endDate: "2024-12-20T18:00:00Z",
+        travelMode: "DRIVING",
+      },
+      {
+        id: "456",
+        destinationCity: "Tokyo",
+        startDate: "2025-01-10T08:00:00Z",
+        endDate: "2025-01-17T20:00:00Z",
+        travelMode: "TRANSIT",
+      },
+      {
+        id: "789",
+        destinationCity: "Paris",
+        startDate: "2025-03-05T12:00:00Z",
+        endDate: "2025-03-12T16:00:00Z",
+        travelMode: "WALKING",
+      },
+    ],
+    page: {
+      page: 0,
+      size: 20,
+      totalElements: 3,
+      totalPages: 1,
+    },
+  });
+}
+
+export async function getItineraryImage(itineraryId) {
+  try {
+    const attractions = await getTripAttractions({ id: itineraryId });
+    return attractions?.data?.[0]?.imageUrl || null;
+  } catch (error) {
+    console.warn(`Failed to fetch image for itinerary ${itineraryId}:`, error);
+    return null;
+  }
 }
